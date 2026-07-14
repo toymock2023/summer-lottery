@@ -60,3 +60,216 @@ function checkActivityPeriod(now) {
   if (t > new Date(ACTIVITY_END).getTime()) return 'ENDED';
   return 'ACTIVE';
 }
+
+// ========== HTTP 入口 ==========
+
+function doPost(e) {
+  let req;
+  try {
+    req = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return jsonOutput(errorResponse('BAD_REQUEST', '請求格式錯誤'));
+  }
+  try {
+    switch (req.action) {
+      case 'pool':
+        return jsonOutput(handlePool());
+      case 'query':
+        return jsonOutput(handleQuery(req.customerId, req.orderId));
+      case 'draw':
+        return jsonOutput(handleDraw(req.customerId, req.orderId));
+      default:
+        return jsonOutput(errorResponse('BAD_REQUEST', '未知的 action'));
+    }
+  } catch (err) {
+    console.error(err);
+    return jsonOutput(errorResponse('SERVER_ERROR', '系統忙碌中，請稍後再試'));
+  }
+}
+
+function doGet() {
+  return jsonOutput({ success: true, data: { status: 'ok', service: '夏日消暑祭抽獎 API' } });
+}
+
+function jsonOutput(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function errorResponse(code, message, extra) {
+  const error = { code: code, message: message };
+  if (extra) Object.assign(error, extra);
+  return { success: false, error: error };
+}
+
+// ========== Sheets 存取 ==========
+
+function getSheet(name) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name);
+  if (!sheet) throw new Error('找不到分頁：' + name);
+  return sheet;
+}
+
+function findOrder(orderId) {
+  const rows = getSheet(SHEET_ORDERS).getDataRange().getValues();
+  const target = normalizeId(orderId);
+  for (let i = 1; i < rows.length; i++) {
+    if (normalizeId(rows[i][1]) === target) {
+      return {
+        customerId: normalizeId(rows[i][0]),
+        orderId: String(rows[i][1]).trim(),
+        amount: Number(rows[i][2]),
+      };
+    }
+  }
+  return null;
+}
+
+function countUsedDraws(orderId) {
+  const rows = getSheet(SHEET_RECORDS).getDataRange().getValues();
+  const target = normalizeId(orderId);
+  let count = 0;
+  for (let i = 1; i < rows.length; i++) {
+    if (normalizeId(rows[i][2]) === target) count++;
+  }
+  return count;
+}
+
+function readPool() {
+  const sheet = getSheet(SHEET_POOL);
+  const rows = sheet.getDataRange().getValues();
+  const pool = [];
+  for (let i = 1; i < rows.length; i++) {
+    if (!rows[i][0]) continue;
+    pool.push({
+      name: String(rows[i][0]).trim(),
+      initial: Number(rows[i][1]),
+      drawn: Number(rows[i][2]),
+      remaining: Number(rows[i][3]),
+      row: i + 1,
+    });
+  }
+  return { sheet: sheet, pool: pool };
+}
+
+function poolData(pool) {
+  return {
+    prizes: pool.map((p) => ({ name: p.name, initial: p.initial, remaining: p.remaining })),
+    totalRemaining: pool.reduce((s, p) => s + Math.max(0, p.remaining), 0),
+  };
+}
+
+// ========== 驗證 ==========
+
+function validateOrder(customerId, orderId) {
+  const periodStatus = checkActivityPeriod(new Date());
+  if (periodStatus === 'NOT_STARTED') {
+    return { error: errorResponse('EVENT_NOT_STARTED', '活動尚未開始，開始時間為 2026/07/16') };
+  }
+  if (periodStatus === 'ENDED') {
+    return { error: errorResponse('EVENT_ENDED', '活動已於 2026/08/14 結束，感謝您的參與！') };
+  }
+  if (!normalizeId(customerId) || !normalizeId(orderId)) {
+    return { error: errorResponse('BAD_REQUEST', '請輸入客戶編號與訂單號碼') };
+  }
+  const order = findOrder(orderId);
+  if (!order) {
+    return { error: errorResponse('ORDER_NOT_FOUND', '查無此訂單，請確認訂單號碼是否正確') };
+  }
+  if (order.customerId !== normalizeId(customerId)) {
+    return { error: errorResponse('CUSTOMER_MISMATCH', '客戶編號與訂單不符，請確認後重新輸入') };
+  }
+  if (order.amount < DRAW_THRESHOLD) {
+    return {
+      error: errorResponse(
+        'BELOW_THRESHOLD',
+        '此訂單金額為 NT$' + formatMoney(order.amount) + '，未達抽獎門檻 NT$3,000',
+        { amount: order.amount }
+      ),
+    };
+  }
+  const totalDraws = calcTotalDraws(order.amount);
+  const usedDraws = countUsedDraws(orderId);
+  return {
+    order: order,
+    totalDraws: totalDraws,
+    usedDraws: usedDraws,
+    remainingDraws: Math.max(0, totalDraws - usedDraws),
+  };
+}
+
+// ========== Handlers ==========
+
+function handlePool() {
+  return { success: true, data: poolData(readPool().pool) };
+}
+
+function handleQuery(customerId, orderId) {
+  const v = validateOrder(customerId, orderId);
+  if (v.error) return v.error;
+  return {
+    success: true,
+    data: {
+      customerId: v.order.customerId,
+      amount: v.order.amount,
+      totalDraws: v.totalDraws,
+      usedDraws: v.usedDraws,
+      remainingDraws: v.remainingDraws,
+    },
+  };
+}
+
+function handleDraw(customerId, orderId) {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(20000)) {
+    return errorResponse('BUSY', '目前抽獎人數眾多，請稍後再試');
+  }
+  try {
+    const v = validateOrder(customerId, orderId);
+    if (v.error) return v.error;
+    if (v.remainingDraws <= 0) {
+      return errorResponse('NO_DRAWS_LEFT', '此訂單的抽獎次數已全部使用完畢 ✅');
+    }
+
+    const bundle = readPool();
+    const prize = pickPrize(bundle.pool, Math.random);
+    if (!prize) {
+      return errorResponse('POOL_EMPTY', '🎉 活動獎品已全數抽出，感謝您的參與！');
+    }
+
+    // 更新庫存（C 欄：已抽出、D 欄：剩餘）
+    bundle.sheet.getRange(prize.row, 3).setValue(prize.drawn + 1);
+    bundle.sheet.getRange(prize.row, 4).setValue(prize.remaining - 1);
+
+    // 寫入抽獎紀錄
+    const meta = PRIZES_META[prize.name] || { content: '', type: '' };
+    const drawNo = v.usedDraws + 1;
+    getSheet(SHEET_RECORDS).appendRow([
+      Utilities.formatDate(new Date(), TIMEZONE, 'yyyy/MM/dd HH:mm:ss'),
+      v.order.customerId,
+      v.order.orderId,
+      v.order.amount,
+      '第' + drawNo + '次',
+      prize.name,
+      meta.content,
+      meta.type,
+    ]);
+    SpreadsheetApp.flush();
+
+    prize.remaining -= 1;
+    prize.drawn += 1;
+    return {
+      success: true,
+      data: {
+        prizeName: prize.name,
+        prizeContent: meta.content,
+        prizeType: meta.type,
+        drawNo: drawNo,
+        remainingDraws: v.remainingDraws - 1,
+        pool: poolData(bundle.pool),
+      },
+    };
+  } finally {
+    lock.releaseLock();
+  }
+}
