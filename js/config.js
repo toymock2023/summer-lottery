@@ -4,7 +4,7 @@
 // 部署 GAS Web App 後，將取得的 URL 貼入 API_URL，例如：
 // https://script.google.com/macros/s/XXXXXXXX/exec
 const CONFIG = {
-  API_URL: '',
+  API_URL: 'https://script.google.com/macros/s/AKfycbxgIIcPr2mCTp7P1dE1DNnUX-z5gcg9neIBGrjA5JCKguiwwXukkaoBwAF1YzxHQHUVgw/exec',
   REQUEST_TIMEOUT_MS: 15000,
 };
 
