@@ -55,7 +55,7 @@
       status.textContent = '🎉 活動獎品已全數抽出，感謝參與！';
       status.classList.add('is-empty');
     } else {
-      status.textContent = '獎池剩餘 ' + data.totalRemaining + ' / 167 份，抽完為止！';
+      status.textContent = '🔥 現場抽獎熱熱鬧鬧進行中！';
       status.classList.remove('is-empty');
     }
   }

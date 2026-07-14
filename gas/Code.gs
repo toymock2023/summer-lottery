@@ -10,6 +10,9 @@ const DRAW_THRESHOLD = 3000;
 const TIMEZONE = 'Asia/Taipei';
 const ACTIVITY_START = '2026-07-16T00:00:00+08:00';
 const ACTIVITY_END = '2026-08-14T23:59:59+08:00';
+// ⚠️ 測試用開關：true 時 query/draw 會略過活動日期檢查（前台顯示的活動期間文案不受影響）。
+// 上線前必須改回 false，否則 8/14 之後客人仍可持續抽獎。
+const TESTING_SKIP_DATE_CHECK = true;
 
 // 獎項名稱（= C 分頁 A 欄）對應獎品內容與類型，寫入抽獎紀錄時使用
 const PRIZES_META = {
@@ -162,12 +165,14 @@ function poolData(pool) {
 // ========== 驗證 ==========
 
 function validateOrder(customerId, orderId) {
-  const periodStatus = checkActivityPeriod(new Date());
-  if (periodStatus === 'NOT_STARTED') {
-    return { error: errorResponse('EVENT_NOT_STARTED', '活動尚未開始，開始時間為 2026/07/16') };
-  }
-  if (periodStatus === 'ENDED') {
-    return { error: errorResponse('EVENT_ENDED', '活動已於 2026/08/14 結束，感謝您的參與！') };
+  if (!TESTING_SKIP_DATE_CHECK) {
+    const periodStatus = checkActivityPeriod(new Date());
+    if (periodStatus === 'NOT_STARTED') {
+      return { error: errorResponse('EVENT_NOT_STARTED', '活動尚未開始，開始時間為 2026/07/16') };
+    }
+    if (periodStatus === 'ENDED') {
+      return { error: errorResponse('EVENT_ENDED', '活動已於 2026/08/14 結束，感謝您的參與！') };
+    }
   }
   if (!normalizeId(customerId) || !normalizeId(orderId)) {
     return { error: errorResponse('BAD_REQUEST', '請輸入客戶編號與訂單號碼') };
