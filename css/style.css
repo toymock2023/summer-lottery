@@ -1,0 +1,354 @@
+/* ============ Design Tokens ============ */
+:root {
+  --ink: #080e2c;        /* 夜空最深 */
+  --navy: #12194a;
+  --indigo: #1b2569;     /* logo 藍 */
+  --plum: #55285a;
+  --sunset: #ff6d3f;
+  --coral: #e8843c;      /* logo 橘 */
+  --gold: #ffc857;
+  --cream: #fff7ea;
+  --white: #fffdf8;
+  --teal: #2e7d6b;
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(8, 14, 44, 0.35);
+  --font: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  /* 淺色文字直接疊在漸層夜空上時，用陰影加強對比，避免橘紅色段落對比不足 */
+  --text-glow: 0 2px 10px rgba(8, 14, 44, 0.65), 0 1px 3px rgba(8, 14, 44, 0.85);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--cream);
+  background: var(--coral);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+main { position: relative; z-index: 1; }
+[hidden] { display: none !important; }
+
+/* ============ 背景：星空 / 花火 / 燈籠 ============ */
+/* .sky 是 position:fixed 的全視窗圖層，天然只會鋪滿一個視窗高度，
+   漸層畫在這裡才不會像畫在 body 上那樣隨捲動高度重複貼圖產生斷層 */
+.sky {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg,
+    var(--ink) 0%, var(--indigo) 32%, var(--plum) 58%, #b4432f 82%, var(--coral) 100%);
+}
+
+.stars {
+  position: absolute; inset: 0; opacity: 0.8;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, #fff, transparent),
+    radial-gradient(2px 2px at 32% 8%, #ffe9b8, transparent),
+    radial-gradient(1.5px 1.5px at 55% 18%, #fff, transparent),
+    radial-gradient(2px 2px at 72% 6%, #cfe4ff, transparent),
+    radial-gradient(1.5px 1.5px at 88% 25%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 22% 38%, #ffe9b8, transparent),
+    radial-gradient(2px 2px at 64% 32%, #fff, transparent);
+  animation: twinkle 3.2s ease-in-out infinite alternate;
+}
+@keyframes twinkle { from { opacity: 0.45; } to { opacity: 0.9; } }
+
+.firework {
+  position: absolute; width: 5px; height: 5px; border-radius: 50%;
+  opacity: 0; animation: burst 5s ease-out infinite;
+}
+.fw-1 { top: 18%; left: 14%; }
+.fw-2 { top: 10%; left: 68%; animation-delay: 1.7s; }
+.fw-3 { top: 28%; left: 44%; animation-delay: 3.2s; }
+@keyframes burst {
+  0%, 60%, 100% {
+    opacity: 0;
+    box-shadow: 0 0 var(--gold), 0 0 var(--sunset), 0 0 var(--gold), 0 0 var(--sunset),
+                0 0 var(--gold), 0 0 var(--sunset), 0 0 var(--gold), 0 0 var(--sunset);
+  }
+  8% { opacity: 1; }
+  38% {
+    opacity: 0.9;
+    box-shadow: 0 -70px var(--gold), 50px -50px var(--sunset), 70px 0 var(--gold),
+                50px 50px var(--sunset), 0 70px var(--gold), -50px 50px var(--sunset),
+                -70px 0 var(--gold), -50px -50px var(--sunset);
+  }
+  55% {
+    opacity: 0;
+    box-shadow: 0 -85px var(--gold), 60px -60px var(--sunset), 85px 0 var(--gold),
+                60px 60px var(--sunset), 0 85px var(--gold), -60px 60px var(--sunset),
+                -85px 0 var(--gold), -60px -60px var(--sunset);
+  }
+}
+
+.lantern {
+  position: absolute; width: 46px; height: 60px;
+  background: linear-gradient(180deg, #ff8d5a, #e8552f);
+  border-radius: 40% 40% 45% 45% / 35% 35% 60% 60%;
+  box-shadow: 0 0 26px rgba(255, 141, 90, 0.55);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff3d6; font-weight: 700;
+  animation: floaty 6s ease-in-out infinite;
+}
+.lantern::before {
+  content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  width: 18px; height: 8px; background: #5a2b1a; border-radius: 4px;
+}
+.lantern::after {
+  content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+  width: 14px; height: 10px; background: var(--gold); border-radius: 0 0 6px 6px;
+}
+.lt-1 { top: 22%; left: 5%; }
+.lt-2 { top: 9%; right: 7%; animation-delay: 2s; }
+.lt-3 { top: 42%; right: 16%; animation-delay: 4s; }
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-16px) rotate(2deg); }
+}
+
+/* ============ Header ============ */
+.site-header {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+  padding: 18px clamp(16px, 4vw, 40px);
+}
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-logo { width: 44px; height: 44px; background: var(--white); border-radius: 50%; padding: 4px; }
+.brand-name { color: var(--white); font-weight: 900; font-size: 1.2rem; letter-spacing: 0.08em; text-shadow: var(--text-glow); }
+.brand-name small { display: block; font-size: 0.7rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.2em; }
+
+/* ============ Hero ============ */
+.hero {
+  min-height: 92vh; position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 96px 20px 40px;
+}
+.hero-badge {
+  border: 1.5px solid var(--gold); color: var(--gold);
+  border-radius: 999px; padding: 4px 18px; font-size: 0.85rem; letter-spacing: 0.3em;
+  margin-bottom: 20px; text-shadow: var(--text-glow);
+  background: rgba(8, 14, 44, 0.3);
+}
+.hero-title {
+  font-size: clamp(2.6rem, 9vw, 4.6rem); font-weight: 900; letter-spacing: 0.06em;
+  color: var(--gold);
+  text-wrap: balance;
+  text-shadow: 0 2px 4px rgba(8, 14, 44, 0.5), 0 0 40px rgba(255, 200, 87, 0.4);
+}
+.hero-sub { font-size: clamp(1.2rem, 4vw, 1.7rem); font-weight: 700; color: var(--white); margin-top: 10px; letter-spacing: 0.25em; text-shadow: var(--text-glow); }
+.hero-period { margin-top: 22px; font-size: 1.05rem; opacity: 0.95; text-shadow: var(--text-glow); }
+.hero-rule {
+  margin-top: 8px; font-size: clamp(1rem, 3vw, 1.2rem);
+  background: rgba(8, 14, 44, 0.4); border-radius: 999px; padding: 8px 22px;
+  backdrop-filter: blur(4px);
+}
+.hero-rule strong { color: var(--gold); }
+.scroll-cue {
+  margin-top: 44px; font-size: 1.5rem; color: var(--gold); text-decoration: none;
+  animation: bob 1.6s ease-in-out infinite;
+  text-shadow: var(--text-glow);
+}
+@keyframes bob { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(10px); opacity: 1; } }
+
+/* ============ Sections ============ */
+.section { max-width: 1040px; margin: 0 auto; padding: 56px 20px; position: relative; z-index: 1; }
+.section-title {
+  text-align: center; font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 900;
+  letter-spacing: 0.12em; margin-bottom: 12px; text-shadow: var(--text-glow);
+  text-wrap: balance;
+}
+.pool-status { text-align: center; color: var(--gold); font-weight: 700; margin-bottom: 28px; min-height: 1.7em; text-shadow: var(--text-glow); }
+.pool-status.is-empty { color: var(--white); font-size: 1.15rem; }
+
+/* ============ 獎品卡 ============ */
+.prize-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px;
+}
+.prize-card {
+  background: var(--cream); color: var(--ink);
+  border-radius: var(--radius); padding: 26px 20px 22px; text-align: center;
+  box-shadow: var(--shadow); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.prize-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(8, 14, 44, 0.45); }
+.prize-emoji { font-size: 3rem; line-height: 1; }
+.prize-name { font-size: 1.25rem; font-weight: 900; letter-spacing: 0.05em; }
+.prize-content { font-size: 0.95rem; color: #47454f; min-height: 3.2em; display: flex; align-items: center; }
+.prize-type {
+  display: inline-block; border-radius: 999px; padding: 3px 14px;
+  font-size: 0.8rem; font-weight: 700; color: var(--white); letter-spacing: 0.05em;
+}
+.type-physical { background: #c1602a; }
+.type-discount { background: var(--indigo); }
+.type-shipping { background: #1f6355; }
+.prize-remaining { font-weight: 900; color: #c1502a; margin-top: 4px; }
+.prize-card.is-out { filter: grayscale(1); opacity: 0.6; }
+.prize-card.is-out .prize-remaining { color: #6b6b6b; }
+.prize-card.is-out:hover { transform: none; }
+
+/* ============ 表單與訊息 ============ */
+.verify-form {
+  background: var(--cream); color: var(--ink);
+  max-width: 460px; margin: 0 auto; border-radius: var(--radius);
+  padding: 28px 26px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.field label { display: block; font-weight: 700; margin-bottom: 6px; }
+.field input {
+  width: 100%; padding: 12px 14px; font-size: 1rem; font-family: var(--font);
+  border: 2px solid #ddd3c2; border-radius: 10px; background: var(--white);
+  min-height: 44px;
+  transition: border-color 0.2s ease;
+}
+.field input:focus { outline: none; border-color: var(--coral); }
+
+.btn {
+  font-family: var(--font); font-size: 1.05rem; font-weight: 900; letter-spacing: 0.1em;
+  border: none; border-radius: 999px; padding: 13px 30px; cursor: pointer;
+  min-height: 44px;
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), filter 0.15s ease;
+}
+.btn:hover:not(:disabled) { transform: scale(1.04); filter: brightness(1.08); }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(135deg, var(--coral), var(--sunset)); color: var(--white); }
+.btn-draw {
+  background: linear-gradient(135deg, var(--gold), var(--sunset)); color: var(--ink);
+  font-size: 1.2rem; padding: 15px 40px; margin-top: 14px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 200, 87, 0.55); }
+  50% { box-shadow: 0 0 0 14px rgba(255, 200, 87, 0); }
+}
+
+.message {
+  max-width: 460px; margin: 18px auto 0; border-radius: 12px; padding: 14px 18px;
+  text-align: center; font-weight: 700;
+}
+.message.error { background: rgba(216, 67, 21, 0.22); border: 1.5px solid #ff8a65; color: #ffe4d9; }
+.message.info { background: rgba(255, 200, 87, 0.18); border: 1.5px solid var(--gold); color: #fff3d6; }
+
+.status-panel {
+  max-width: 460px; margin: 18px auto 0; background: var(--cream); color: var(--ink);
+  border-radius: var(--radius); padding: 24px 26px; box-shadow: var(--shadow); text-align: center;
+}
+.status-hello { font-size: 1.2rem; font-weight: 900; }
+.status-amount { margin-top: 6px; color: #47454f; }
+.status-draws { margin-top: 6px; font-weight: 700; color: var(--indigo); }
+
+/* ============ 扭蛋機 ============ */
+.gacha-stage { text-align: center; margin: 36px auto 0; }
+.gacha-hint { margin-top: 14px; color: var(--gold); font-weight: 700; letter-spacing: 0.15em; text-shadow: var(--text-glow); }
+
+.gacha-machine { position: relative; width: 220px; height: 320px; margin: 0 auto; }
+.gacha-dome {
+  width: 200px; height: 150px; margin: 0 auto; position: relative; overflow: hidden;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(190, 220, 255, 0.4));
+  border: 6px solid var(--indigo); border-radius: 100px 100px 12px 12px;
+}
+.mini-capsule { position: absolute; width: 34px; height: 34px; border-radius: 50%; }
+.mc-1 { background: linear-gradient(180deg, var(--sunset) 50%, #fff 50%); left: 14px; bottom: 6px; }
+.mc-2 { background: linear-gradient(180deg, var(--gold) 50%, #fff 50%); left: 58px; bottom: 12px; }
+.mc-3 { background: linear-gradient(180deg, #7ec8e3 50%, #fff 50%); left: 100px; bottom: 5px; }
+.mc-4 { background: linear-gradient(180deg, #9fd8a3 50%, #fff 50%); left: 142px; bottom: 10px; }
+.mc-5 { background: linear-gradient(180deg, var(--coral) 50%, #fff 50%); left: 82px; bottom: 42px; }
+
+.gacha-body {
+  width: 200px; height: 116px; margin: -4px auto 0; position: relative;
+  background: linear-gradient(180deg, var(--sunset), #d84315);
+  border: 6px solid var(--indigo); border-radius: 12px 12px 20px 20px;
+}
+.gacha-knob {
+  position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+  width: 54px; height: 54px; background: var(--white);
+  border: 5px solid var(--indigo); border-radius: 50%;
+}
+.gacha-knob span {
+  position: absolute; left: 50%; top: 50%; width: 8px; height: 38px;
+  background: var(--indigo); border-radius: 4px; transform: translate(-50%, -50%);
+}
+.gacha-slot {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 72px; height: 26px; background: var(--ink); border-radius: 8px;
+}
+
+.gacha-capsule {
+  position: absolute; left: 50%; bottom: 6px; width: 64px; height: 64px;
+  transform: translateX(-50%) translateY(-30px) scale(0);
+}
+.capsule-top {
+  position: absolute; top: 0; width: 64px; height: 32px;
+  background: var(--gold); border-radius: 32px 32px 0 0; transform-origin: left bottom;
+}
+.capsule-bottom {
+  position: absolute; bottom: 0; width: 64px; height: 32px;
+  background: var(--white); border-radius: 0 0 32px 32px;
+}
+
+.is-spinning { animation: shake 0.5s ease-in-out infinite; }
+.is-spinning .gacha-knob { animation: knob-turn 0.8s linear infinite; }
+.is-spinning .mini-capsule { animation: jiggle 0.35s ease-in-out infinite alternate; }
+@keyframes knob-turn { to { transform: translateX(-50%) rotate(360deg); } }
+@keyframes jiggle { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(-10px) rotate(12deg); } }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px) rotate(-1deg); }
+  75% { transform: translateX(3px) rotate(1deg); }
+}
+
+.is-dropping .gacha-capsule { animation: capsule-drop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+@keyframes capsule-drop {
+  0% { transform: translateX(-50%) translateY(-30px) scale(0); }
+  45% { transform: translateX(-50%) translateY(58px) scale(1); }
+  68% { transform: translateX(-50%) translateY(44px) scale(1); }
+  100% { transform: translateX(-50%) translateY(58px) scale(1); }
+}
+.is-open .gacha-capsule { filter: drop-shadow(0 0 20px var(--gold)); }
+.is-open .capsule-top { animation: pop-open 0.5s ease forwards; }
+@keyframes pop-open { to { transform: rotate(-105deg) translateY(-8px); } }
+
+/* ============ 抽獎結果 ============ */
+.draw-result {
+  max-width: 460px; margin: 30px auto 0; text-align: center;
+  background: var(--cream); color: var(--ink);
+  border-radius: var(--radius); padding: 30px 26px; box-shadow: var(--shadow);
+}
+.result-congrats { font-size: 1.3rem; font-weight: 900; color: #c1602a; letter-spacing: 0.2em; }
+.result-prize { font-size: clamp(1.7rem, 6vw, 2.2rem); font-weight: 900; margin-top: 8px; text-wrap: balance; }
+.result-content { margin-top: 6px; font-size: 1.05rem; color: #47454f; }
+.draw-result .prize-type { margin-top: 10px; }
+.result-note { margin-top: 12px; font-size: 0.95rem; background: rgba(27, 37, 105, 0.08); border-radius: 10px; padding: 10px 14px; }
+.result-remaining { margin-top: 14px; font-weight: 900; color: var(--indigo); }
+
+/* ============ 撒花 ============ */
+.confetti { position: fixed; inset: 0; z-index: 99; pointer-events: none; overflow: hidden; }
+.confetti span {
+  position: absolute; top: -18px; width: 10px; height: 14px; border-radius: 2px; opacity: 0.95;
+  animation-name: confetti-fall; animation-timing-function: linear; animation-fill-mode: forwards;
+}
+@keyframes confetti-fall { to { transform: translateY(105vh) rotate(720deg); } }
+
+/* ============ Footer ============ */
+.site-footer {
+  position: relative; z-index: 1; margin-top: 40px;
+  background: rgba(8, 14, 44, 0.72); backdrop-filter: blur(6px);
+  padding: 44px 20px 32px;
+}
+.footer-title { text-align: center; font-size: 1.15rem; font-weight: 900; letter-spacing: 0.15em; margin-bottom: 18px; }
+.notes { max-width: 640px; margin: 0 auto; padding-left: 1.4em; font-size: 0.92rem; opacity: 0.95; }
+.notes li { margin-bottom: 6px; }
+.footer-brand { text-align: center; margin-top: 26px; }
+.footer-brand img { width: 36px; height: 36px; background: var(--white); border-radius: 50%; padding: 3px; }
+.footer-brand p { font-size: 0.85rem; opacity: 0.8; margin-top: 8px; }
+
+/* ============ RWD / 動效偏好 ============ */
+@media (max-width: 600px) {
+  .hero { min-height: 88vh; }
+  .section { padding: 44px 16px; }
+  .lantern { transform: scale(0.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
