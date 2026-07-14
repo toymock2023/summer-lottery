@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>設計稿 C｜涼夏海報 — 夏日消暑祭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============ 設計稿 C：涼夏海報 ============
+   日系百貨「涼夏特賣」海報風：白底 × 琉璃紺大字 ×
+   青海波紋 × 直排文字 × 檸檬黃印章點綴。沉穩大器。 */
+:root {
+  --paper: #f7fafc;
+  --ink: #16325c;
+  --cobalt: #1e4fa3;
+  --mist: #e3edf7;
+  --seiha: #bcd6ee;
+  --lemon: #f6cf3d;
+  --lemon-ink: #7a6200;
+  --serif: 'Noto Serif TC', serif;
+  --sans: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); color: var(--ink); background: var(--paper); line-height: 1.8; overflow-x: hidden; }
+
+/* 青海波（seigaiha）SVG 圖樣，僅用於帶狀區 */
+.seigaiha {
+  background-color: var(--mist);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cg fill='none' stroke='%23bcd6ee' stroke-width='2'%3E%3Cpath d='M0 40a40 40 0 0 1 80 0M-20 40a40 40 0 0 1 80 0M20 40a40 40 0 0 1 80 0'/%3E%3Ccircle cx='40' cy='40' r='12'/%3E%3Ccircle cx='0' cy='40' r='12'/%3E%3Ccircle cx='80' cy='40' r='12'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 40px;
+}
+
+/* ---- Header ---- */
+.site-header {
+  padding: 20px clamp(16px, 4vw, 48px); display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--seiha); background: var(--paper);
+}
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+.brand-logo {
+  width: 42px; height: 42px; border-radius: 50%; background: var(--cobalt); color: #fff;
+  display: grid; place-items: center; font-family: var(--serif); font-weight: 900; font-size: 1.15rem;
+}
+.brand-name { font-weight: 900; font-size: 1.1rem; letter-spacing: .1em; }
+.brand-name small { display: block; font-size: .68rem; font-weight: 500; letter-spacing: .24em; color: var(--cobalt); }
+.member-chip {
+  font-size: .8rem; font-weight: 700; letter-spacing: .18em; color: var(--cobalt);
+  border: 1.5px solid var(--cobalt); border-radius: 999px; padding: 4px 16px;
+}
+
+/* ---- Hero：海報構圖，直排標語 + 特大明朝體 ---- */
+.hero {
+  max-width: 1120px; margin: 0 auto; padding: clamp(48px, 8vw, 96px) 20px 64px;
+  display: grid; grid-template-columns: auto 1fr auto; gap: clamp(16px, 4vw, 56px); align-items: center;
+  position: relative;
+}
+.tategaki {
+  writing-mode: vertical-rl; font-family: var(--serif); font-weight: 700;
+  font-size: clamp(.95rem, 2vw, 1.2rem); letter-spacing: .42em; color: var(--cobalt);
+  border-right: 1.5px solid var(--seiha); padding-right: 14px; height: fit-content;
+}
+.tategaki.right { border-right: 0; border-left: 1.5px solid var(--seiha); padding-right: 0; padding-left: 14px; }
+.hero-center { text-align: center; }
+.hero-badge {
+  display: inline-block; font-size: .85rem; font-weight: 700; letter-spacing: .5em;
+  color: var(--cobalt); margin-bottom: 22px; text-indent: .5em;
+}
+.hero-title {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(3rem, 11vw, 6rem); letter-spacing: .08em; line-height: 1.2;
+  color: var(--ink); text-wrap: balance;
+}
+.hero-title .blue { color: var(--cobalt); }
+.hero-sub {
+  margin-top: 18px; font-family: var(--serif); font-size: clamp(1.1rem, 3.6vw, 1.5rem);
+  font-weight: 700; letter-spacing: .4em; text-indent: .4em; color: var(--ink);
+}
+.hero-period { margin-top: 30px; font-size: 1.02rem; font-weight: 500; letter-spacing: .12em; color: #3d5a80; }
+.hero-rule {
+  margin-top: 14px; display: inline-block; font-size: clamp(1rem, 3vw, 1.18rem); font-weight: 700;
+  background: #fff; border: 1.5px solid var(--seiha); border-radius: 4px; padding: 12px 30px;
+  box-shadow: 0 4px 18px rgba(30, 79, 163, 0.08);
+}
+.hero-rule strong { color: var(--cobalt); font-size: 1.2em; font-variant-numeric: tabular-nums; }
+/* 檸檬印章 */
+.stamp {
+  position: absolute; top: clamp(20px, 5vw, 64px); right: clamp(8px, 3vw, 48px);
+  width: 92px; height: 92px; border-radius: 50%; background: var(--lemon);
+  display: grid; place-items: center; rotate: 12deg;
+  font-family: var(--serif); font-weight: 900; font-size: 1.05rem; letter-spacing: .1em;
+  color: var(--lemon-ink); text-align: center; line-height: 1.4;
+  box-shadow: 0 6px 18px rgba(122, 98, 0, 0.25);
+}
+.stamp::before { content: ''; position: absolute; inset: 6px; border: 1.5px dashed rgba(122, 98, 0, .5); border-radius: 50%; }
+
+/* 冰塊行列裝飾 */
+.ice-row { display: flex; justify-content: center; gap: 18px; margin-top: 40px; }
+.ice {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: linear-gradient(150deg, #ffffff, #dbedfb 65%);
+  border: 1.5px solid var(--seiha); box-shadow: inset 0 -6px 10px rgba(150, 195, 235, .35);
+  animation: melt-float 5s ease-in-out infinite;
+}
+.ice:nth-child(2) { animation-delay: 1.2s; rotate: 8deg; }
+.ice:nth-child(3) { animation-delay: 2.4s; rotate: -6deg; }
+@keyframes melt-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* ---- 青海波帶狀分隔 ---- */
+.seiha-band { height: 72px; border-top: 1.5px solid var(--seiha); border-bottom: 1.5px solid var(--seiha); }
+
+/* ---- Sections ---- */
+.section { max-width: 1080px; margin: 0 auto; padding: 64px 20px; }
+.section-head { text-align: center; margin-bottom: 36px; }
+.section-title {
+  display: inline-block; font-family: var(--serif); font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 900; letter-spacing: .3em; text-indent: .3em; position: relative; padding-bottom: 12px;
+}
+.section-title::after {
+  content: ''; position: absolute; left: 50%; bottom: 0; translate: -50% 0;
+  width: 64px; height: 3px; background: var(--lemon);
+}
+.section-lead { margin-top: 12px; color: #3d5a80; font-weight: 500; letter-spacing: .08em; }
+
+/* ---- 獎品：帳票式一覽（海報感的橫列）---- */
+.prize-list { display: flex; flex-direction: column; border-top: 1.5px solid var(--ink); }
+.prize-row {
+  display: grid; grid-template-columns: 72px 1fr auto auto; gap: clamp(10px, 3vw, 28px);
+  align-items: center; padding: 18px clamp(4px, 2vw, 18px);
+  border-bottom: 1.5px solid var(--seiha); background: transparent;
+  transition: background .2s ease;
+}
+.prize-row:hover { background: #fff; }
+.prize-row:last-child { border-bottom: 1.5px solid var(--ink); }
+.prize-emoji {
+  font-size: 2rem; width: 60px; height: 60px; border-radius: 50%;
+  background: var(--mist); display: grid; place-items: center;
+}
+.prize-main { min-width: 0; }
+.prize-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 900; letter-spacing: .08em; }
+.prize-content { font-size: .95rem; color: #3d5a80; }
+.prize-type {
+  font-size: .78rem; font-weight: 700; letter-spacing: .1em; white-space: nowrap;
+  padding: 4px 14px; border-radius: 3px; color: #fff; background: var(--cobalt);
+}
+.type-physical { background: #b23a5e; }
+.type-shipping { background: #2a7d6c; }
+.prize-remaining {
+  font-weight: 900; font-size: 1.05rem; color: var(--cobalt); white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.prize-remaining small { display: block; font-size: .72rem; font-weight: 500; color: #3d5a80; letter-spacing: .2em; }
+
+/* ---- 抽獎專區：奉書紙卡片 ---- */
+.lottery-wrap { max-width: 560px; margin: 0 auto; }
+.lottery-card {
+  background: #fff; border: 1.5px solid var(--seiha); border-radius: 6px;
+  padding: 40px clamp(22px, 5vw, 48px); box-shadow: 0 10px 34px rgba(30, 79, 163, 0.1);
+  position: relative;
+}
+.lottery-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, var(--cobalt) 0 33%, var(--lemon) 33% 66%, var(--seiha) 66%);
+  border-radius: 6px 6px 0 0;
+}
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 700; letter-spacing: .1em; margin-bottom: 6px; }
+.field input {
+  width: 100%; padding: 13px 16px; font-size: 1rem; font-family: var(--sans);
+  border: 1.5px solid var(--seiha); border-radius: 4px; background: var(--paper); min-height: 46px;
+  transition: border-color .2s ease;
+}
+.field input:focus { outline: none; border-color: var(--cobalt); background: #fff; }
+.field input::placeholder { color: #7d94b5; }
+.btn {
+  font-family: var(--sans); font-size: 1.05rem; font-weight: 900; letter-spacing: .3em; text-indent: .3em;
+  border: none; border-radius: 4px; padding: 15px 30px; cursor: pointer; min-height: 50px; width: 100%;
+  transition: filter .15s ease, transform .15s ease;
+}
+.btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.btn-primary { background: var(--cobalt); color: #fff; }
+.btn-draw { margin-top: 14px; background: var(--lemon); color: var(--lemon-ink); }
+
+/* ---- Footer ---- */
+.site-footer { margin-top: 64px; background: var(--ink); color: #dce9f7; padding: 48px 20px 36px; }
+.footer-title {
+  text-align: center; font-family: var(--serif); font-size: 1.2rem; font-weight: 700;
+  letter-spacing: .4em; text-indent: .4em; margin-bottom: 20px; color: var(--lemon);
+}
+.notes { max-width: 640px; margin: 0 auto; padding-left: 1.4em; font-size: .92rem; }
+.notes li { margin-bottom: 6px; }
+.footer-brand { text-align: center; margin-top: 28px; font-size: .85rem; opacity: .75; letter-spacing: .1em; }
+
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; }
+  .tategaki { display: none; }
+  .stamp { width: 74px; height: 74px; font-size: .85rem; }
+  .prize-row { grid-template-columns: 56px 1fr auto; }
+  .prize-type { display: none; }
+  .section { padding: 48px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#hero">
+      <span class="brand-logo">毓</span>
+      <span class="brand-name">毓秀堂<small>日系生活百貨批發</small></span>
+    </a>
+    <span class="member-chip">會員限定</span>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <p class="tategaki">盛夏批發謝恩企劃</p>
+      <div class="hero-center">
+        <p class="hero-badge">會員限定活動</p>
+        <h1 class="hero-title">夏日<span class="blue">消暑</span>祭</h1>
+        <p class="hero-sub">夏日清涼　滿額好禮抽</p>
+        <p class="hero-period">2026年7月16日（四）— 8月14日（五）</p>
+        <p class="hero-rule">活動專區消費每滿 <strong>NT$3,000</strong>，即可抽獎 <strong>1 次</strong>・可累計</p>
+        <div class="ice-row" aria-hidden="true"><span class="ice"></span><span class="ice"></span><span class="ice"></span></div>
+      </div>
+      <p class="tategaki right">涼を、まとめ買い。</p>
+      <div class="stamp" aria-hidden="true">檸檬<br>特典</div>
+    </section>
+
+    <div class="seiha-band seigaiha" aria-hidden="true"></div>
+
+    <section class="section" id="prizes">
+      <div class="section-head">
+        <h2 class="section-title">六大甜品獎</h2>
+        <p class="section-lead">獎品數量有限，抽完為止</p>
+      </div>
+      <div class="prize-list">
+        <div class="prize-row">
+          <span class="prize-emoji">🍧</span>
+          <div class="prize-main"><p class="prize-name">刨冰獎</p><p class="prize-content">【SPICE】掛脖式風扇</p></div>
+          <span class="prize-type type-physical">實物贈品</span>
+          <span class="prize-remaining">3 份<small>REMAIN</small></span>
+        </div>
+        <div class="prize-row">
+          <span class="prize-emoji">🍵</span>
+          <div class="prize-main"><p class="prize-name">抹茶獎</p><p class="prize-content">【SKATER】胖胖水壺530ml</p></div>
+          <span class="prize-type type-physical">實物贈品</span>
+          <span class="prize-remaining">8 份<small>REMAIN</small></span>
+        </div>
+        <div class="prize-row">
+          <span class="prize-emoji">🍡</span>
+          <div class="prize-main"><p class="prize-name">糰子獎</p><p class="prize-content">【MASCLUB】3D涼感口罩10枚入×3包</p></div>
+          <span class="prize-type type-physical">實物贈品</span>
+          <span class="prize-remaining">22 份<small>REMAIN</small></span>
+        </div>
+        <div class="prize-row">
+          <span class="prize-emoji">🧊</span>
+          <div class="prize-main"><p class="prize-name">冰沙獎</p><p class="prize-content">本次訂單折 NT$100</p></div>
+          <span class="prize-type">本次訂單折扣</span>
+          <span class="prize-remaining">30 份<small>REMAIN</small></span>
+        </div>
+        <div class="prize-row">
+          <span class="prize-emoji">🥤</span>
+          <div class="prize-main"><p class="prize-name">蘇打獎</p><p class="prize-content">運費折抵券1張【抵扣1箱運費】</p></div>
+          <span class="prize-type type-shipping">運費抵扣券</span>
+          <span class="prize-remaining">45 份<small>REMAIN</small></span>
+        </div>
+        <div class="prize-row">
+          <span class="prize-emoji">🫧</span>
+          <div class="prize-main"><p class="prize-name">彈珠汽水獎</p><p class="prize-content">本次訂單折 NT$50</p></div>
+          <span class="prize-type">本次訂單折扣</span>
+          <span class="prize-remaining">59 份<small>REMAIN</small></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lottery">
+      <div class="section-head">
+        <h2 class="section-title">抽獎專區</h2>
+        <p class="section-lead">輸入客戶編號與訂單號碼，確認資格後即可抽獎</p>
+      </div>
+      <div class="lottery-wrap">
+        <div class="lottery-card">
+          <div class="field">
+            <label for="customer-id">客戶編號</label>
+            <input id="customer-id" type="text" placeholder="例如：C001">
+          </div>
+          <div class="field">
+            <label for="order-id">訂單號碼</label>
+            <input id="order-id" type="text" placeholder="例如：ORD-20260716-001">
+          </div>
+          <button type="button" class="btn btn-primary">查詢抽獎資格</button>
+          <button type="button" class="btn btn-draw">開始抽獎</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <h2 class="footer-title">活動注意事項</h2>
+    <ul class="notes">
+      <li>本活動僅限毓秀堂有效會員參加。</li>
+      <li>活動專區商品消費每滿 NT$3,000 可抽獎 1 次，可累計。</li>
+      <li>獎品數量有限，抽完為止。</li>
+      <li>實物贈品將隨您的訂單一併寄出；訂單折扣於本次訂單結帳時直接扣抵。</li>
+      <li>運費折抵券每筆訂單限用 1 張（抵扣上限 NT$130），自取客戶不適用。</li>
+      <li>本活動解釋權歸毓秀堂所有。</li>
+    </ul>
+    <div class="footer-brand"><p>© 2026 毓秀堂日系生活百貨</p></div>
+  </footer>
+</body>
+</html>

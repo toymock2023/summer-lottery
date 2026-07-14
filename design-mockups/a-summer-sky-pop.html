@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>設計稿 A｜夏空青檸 POP — 夏日消暑祭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============ 設計稿 A：夏空青檸 POP ============
+   湛藍夏空 × 立體白雲 × 檸檬太陽 × 冰塊漂浮
+   圓潤粉圓體、糖果感按鈕，活潑扭蛋祭典氣氛 */
+:root {
+  --sky-top: #2e9fe6;
+  --sky-mid: #6cc3f5;
+  --sky-low: #b8e6ff;
+  --horizon: #eaf9ff;
+  --ink: #0b3455;
+  --ink-soft: #33608a;
+  --cloud: #ffffff;
+  --lemon: #ffd43b;
+  --lemon-deep: #f5b800;
+  --soda: #21b0c8;
+  --white: #ffffff;
+  --radius: 22px;
+  --shadow: 0 12px 28px rgba(14, 78, 128, 0.18);
+  --display: 'Huninn', 'Noto Sans TC', sans-serif;
+  --font: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font); color: var(--ink);
+  background: var(--horizon); line-height: 1.7; overflow-x: hidden;
+}
+
+/* ---- 天空背景（fixed 全視窗層）---- */
+.sky {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 74%, var(--horizon) 100%);
+}
+/* 太陽 */
+.sun {
+  position: absolute; top: 7%; right: 9%; width: 110px; height: 110px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fff3b0, var(--lemon) 62%, var(--lemon-deep));
+  box-shadow: 0 0 60px rgba(255, 212, 59, 0.75), 0 0 140px rgba(255, 212, 59, 0.4);
+  animation: sun-breathe 5s ease-in-out infinite;
+}
+@keyframes sun-breathe {
+  0%, 100% { box-shadow: 0 0 60px rgba(255,212,59,.75), 0 0 140px rgba(255,212,59,.4); }
+  50% { box-shadow: 0 0 80px rgba(255,212,59,.9), 0 0 180px rgba(255,212,59,.5); }
+}
+/* 立體白雲（多層圓形組合） */
+.cloud { position: absolute; animation: drift 26s linear infinite; }
+.cloud i {
+  position: absolute; background: var(--cloud); border-radius: 50%;
+  box-shadow: inset -8px -10px 0 rgba(160, 205, 235, 0.35);
+}
+.cloud-1 { top: 12%; left: -10%; transform: scale(1.15); }
+.cloud-2 { top: 30%; left: -25%; transform: scale(0.8); animation-duration: 34s; animation-delay: -12s; }
+.cloud-3 { top: 52%; left: -18%; transform: scale(0.6); animation-duration: 42s; animation-delay: -25s; opacity: .9; }
+.cloud i:nth-child(1) { width: 90px; height: 90px; left: 0; top: 12px; }
+.cloud i:nth-child(2) { width: 120px; height: 120px; left: 55px; top: -14px; }
+.cloud i:nth-child(3) { width: 84px; height: 84px; left: 135px; top: 14px; }
+.cloud i:nth-child(4) { width: 170px; height: 60px; left: 12px; top: 50px; border-radius: 40px; }
+@keyframes drift { from { translate: 0 0; } to { translate: 130vw 0; } }
+/* 漂浮檸檬片與冰塊 */
+.floaty { position: absolute; animation: bobble 6s ease-in-out infinite; }
+.f-1 { top: 20%; left: 6%; }
+.f-2 { top: 46%; right: 5%; animation-delay: 2s; }
+.f-3 { top: 64%; left: 10%; animation-delay: 4s; }
+@keyframes bobble {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-18px) rotate(8deg); }
+}
+/* 檸檬片（CSS 圓形＋果瓣） */
+.lemon-slice {
+  width: 74px; height: 74px; border-radius: 50%;
+  background: radial-gradient(circle, #fff9d8 0 28%, #ffe98a 30% 84%, var(--lemon-deep) 86%);
+  position: relative; box-shadow: 0 6px 16px rgba(14,78,128,.2);
+}
+.lemon-slice::before {
+  content: ''; position: absolute; inset: 8px; border-radius: 50%;
+  background: repeating-conic-gradient(from 8deg, rgba(245,184,0,.55) 0 3deg, transparent 3deg 45deg);
+}
+/* 冰塊 */
+.ice-cube {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,.95), rgba(190,233,255,.55));
+  border: 3px solid rgba(255,255,255,.9);
+  box-shadow: inset 0 -8px 14px rgba(120,190,235,.45), 0 6px 16px rgba(14,78,128,.18);
+  position: relative;
+}
+.ice-cube::after {
+  content: ''; position: absolute; top: 8px; left: 10px; width: 16px; height: 8px;
+  border-radius: 8px; background: rgba(255,255,255,.9); transform: rotate(-18deg);
+}
+
+/* ---- Header ---- */
+.site-header { position: absolute; top: 0; left: 0; right: 0; z-index: 3; padding: 18px clamp(16px, 4vw, 40px); }
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-logo {
+  width: 46px; height: 46px; background: var(--white); border-radius: 50%;
+  display: grid; place-items: center; font-weight: 900; color: var(--soda);
+  box-shadow: 0 4px 12px rgba(14,78,128,.2); font-family: var(--display); font-size: 1.2rem;
+}
+.brand-name { color: var(--white); font-weight: 900; font-size: 1.2rem; letter-spacing: .08em; text-shadow: 0 2px 8px rgba(11,52,85,.4); }
+.brand-name small { display: block; font-size: .7rem; font-weight: 500; letter-spacing: .2em; }
+
+/* ---- Hero ---- */
+main { position: relative; z-index: 1; }
+.hero {
+  min-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 100px 20px 120px; position: relative;
+}
+.hero-badge {
+  display: inline-block; background: var(--white); color: var(--soda);
+  border-radius: 999px; padding: 6px 22px; font-size: .9rem; font-weight: 900; letter-spacing: .28em;
+  box-shadow: var(--shadow); margin-bottom: 24px;
+}
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 10vw, 5.4rem); font-weight: 400; letter-spacing: .04em;
+  color: var(--white); text-wrap: balance;
+  text-shadow: 0 4px 0 rgba(21, 118, 187, 0.55), 0 10px 26px rgba(11, 52, 85, 0.35);
+}
+.hero-sub {
+  font-size: clamp(1.15rem, 4vw, 1.6rem); font-weight: 900; color: var(--ink);
+  background: var(--lemon); border-radius: 999px; padding: 6px 26px;
+  margin-top: 20px; letter-spacing: .22em; box-shadow: var(--shadow); rotate: -1.5deg;
+}
+.hero-period { margin-top: 24px; font-size: 1.05rem; font-weight: 700; color: var(--white); text-shadow: 0 2px 8px rgba(11,52,85,.45); }
+.hero-rule {
+  margin-top: 10px; font-size: clamp(1rem, 3vw, 1.15rem); font-weight: 700;
+  background: rgba(255,255,255,.92); color: var(--ink); border-radius: 999px; padding: 10px 26px;
+  box-shadow: var(--shadow);
+}
+.hero-rule strong { color: #d81b60; font-size: 1.15em; }
+.scroll-cue {
+  margin-top: 40px; width: 46px; height: 46px; border-radius: 50%; background: var(--white);
+  display: grid; place-items: center; color: var(--soda); font-size: 1.1rem; text-decoration: none;
+  box-shadow: var(--shadow); animation: bob 1.6s ease-in-out infinite;
+}
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
+/* 雲朵波浪分隔線 */
+.cloud-divider { position: absolute; bottom: -2px; left: 0; right: 0; line-height: 0; }
+.cloud-divider svg { width: 100%; height: 90px; display: block; }
+
+/* ---- Sections ---- */
+.page-body { background: var(--horizon); position: relative; z-index: 1; }
+.section { max-width: 1040px; margin: 0 auto; padding: 64px 20px; }
+.section-title {
+  text-align: center; font-family: var(--display); font-size: clamp(1.7rem, 5vw, 2.4rem);
+  color: var(--ink); letter-spacing: .1em; margin-bottom: 8px; text-wrap: balance;
+}
+.section-title .tag {
+  display: inline-block; vertical-align: middle; margin-right: 12px; rotate: -8deg;
+  background: var(--soda); color: #fff; font-family: var(--font); font-weight: 900;
+  font-size: .95rem; border-radius: 12px; padding: 4px 12px; letter-spacing: .1em;
+}
+.pool-status { text-align: center; color: var(--ink-soft); font-weight: 700; margin-bottom: 30px; }
+
+/* ---- 獎品卡：糖果圓角 + 果凍 hover ---- */
+.prize-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; }
+.prize-card {
+  background: var(--white); border-radius: var(--radius); padding: 28px 20px 22px;
+  text-align: center; box-shadow: var(--shadow); position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.prize-card:hover { transform: translateY(-6px) rotate(-.5deg); }
+.prize-card::before {
+  content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 8px;
+  border-radius: 0 0 8px 8px; background: var(--card-hue, var(--soda));
+}
+.prize-emoji { font-size: 3.2rem; line-height: 1.2; }
+.prize-name { font-family: var(--display); font-size: 1.3rem; color: var(--ink); }
+.prize-content { font-size: .95rem; color: var(--ink-soft); min-height: 3.2em; display: flex; align-items: center; }
+.prize-type {
+  display: inline-block; border-radius: 999px; padding: 3px 14px;
+  font-size: .8rem; font-weight: 700; color: #fff; letter-spacing: .05em;
+}
+.type-physical { background: #ef6c8f; }
+.type-discount { background: #4d7cfe; }
+.type-shipping { background: #17a398; }
+.prize-remaining { font-weight: 900; color: #d81b60; margin-top: 4px; }
+
+/* ---- 抽獎專區 ---- */
+.lottery-panel {
+  background: var(--white); border-radius: 28px; max-width: 520px; margin: 0 auto;
+  padding: 34px 30px; box-shadow: var(--shadow); position: relative;
+}
+.lottery-panel::before, .lottery-panel::after {
+  content: ''; position: absolute; top: -16px; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--lemon); box-shadow: 0 4px 10px rgba(14,78,128,.15);
+}
+.lottery-panel::before { left: 36px; }
+.lottery-panel::after { right: 36px; background: var(--soda); }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-weight: 900; margin-bottom: 6px; color: var(--ink); }
+.field input {
+  width: 100%; padding: 13px 16px; font-size: 1rem; font-family: var(--font);
+  border: 2.5px solid #cfe8f7; border-radius: 14px; background: #f4fbff; min-height: 46px;
+  transition: border-color .2s ease;
+}
+.field input:focus { outline: none; border-color: var(--soda); }
+.field input::placeholder { color: #6f93ad; }
+.btn {
+  font-family: var(--font); font-size: 1.05rem; font-weight: 900; letter-spacing: .1em;
+  border: none; border-radius: 999px; padding: 14px 30px; cursor: pointer; min-height: 48px;
+  width: 100%; transition: transform .15s cubic-bezier(.34,1.56,.64,1), filter .15s ease;
+}
+.btn:hover { transform: scale(1.03); filter: brightness(1.05); }
+.btn-primary {
+  background: var(--soda); color: #fff;
+  box-shadow: 0 6px 0 #157f92, 0 12px 22px rgba(14,78,128,.25);
+}
+.btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #157f92; }
+.btn-draw {
+  margin-top: 18px; background: var(--lemon); color: var(--ink); font-size: 1.2rem;
+  box-shadow: 0 6px 0 var(--lemon-deep), 0 12px 22px rgba(14,78,128,.25);
+  animation: wiggle 2.4s ease-in-out infinite;
+}
+@keyframes wiggle { 0%, 88%, 100% { rotate: 0deg; } 91% { rotate: 2deg; } 94% { rotate: -2deg; } 97% { rotate: 1deg; } }
+
+/* ---- Footer ---- */
+.site-footer { background: var(--ink); color: #dbeeff; margin-top: 56px; padding: 48px 20px 34px; position: relative; z-index: 1; }
+.footer-title { text-align: center; font-family: var(--display); font-size: 1.3rem; letter-spacing: .15em; margin-bottom: 18px; color: var(--lemon); }
+.notes { max-width: 640px; margin: 0 auto; padding-left: 1.4em; font-size: .92rem; }
+.notes li { margin-bottom: 6px; }
+.footer-brand { text-align: center; margin-top: 26px; font-size: .85rem; opacity: .75; }
+
+@media (max-width: 600px) {
+  .hero { min-height: 86vh; padding-bottom: 90px; }
+  .section { padding: 46px 16px; }
+  .floaty { scale: .75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud cloud-1"><i></i><i></i><i></i><i></i></div>
+    <div class="cloud cloud-2"><i></i><i></i><i></i><i></i></div>
+    <div class="cloud cloud-3"><i></i><i></i><i></i><i></i></div>
+    <div class="floaty f-1"><div class="lemon-slice"></div></div>
+    <div class="floaty f-2"><div class="ice-cube"></div></div>
+    <div class="floaty f-3"><div class="ice-cube" style="scale:.8"></div></div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#hero">
+      <span class="brand-logo">毓</span>
+      <span class="brand-name">毓秀堂<small>日系生活百貨批發</small></span>
+    </a>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <p class="hero-badge">會員限定活動</p>
+      <h1 class="hero-title">夏日消暑祭</h1>
+      <p class="hero-sub">夏日清涼 滿額好禮抽</p>
+      <p class="hero-period">2026/7/16（四）～ 2026/8/14（五）</p>
+      <p class="hero-rule">活動專區商品消費每滿 <strong>NT$3,000</strong> 即可抽獎 <strong>1 次</strong>，可累計！</p>
+      <a class="scroll-cue" href="#prizes" aria-label="往下瀏覽獎品">▼</a>
+      <div class="cloud-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#eaf9ff" d="M0,60 C120,20 240,90 380,55 C500,25 620,80 760,50 C900,20 1020,85 1160,55 C1280,30 1380,70 1440,45 L1440,90 L0,90 Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <div class="page-body">
+      <section class="section" id="prizes">
+        <h2 class="section-title"><span class="tag">GIFT</span>六大甜品獎</h2>
+        <p class="pool-status">獎池熱烈開抽中！</p>
+        <div class="prize-grid">
+          <div class="prize-card" style="--card-hue:#ef6c8f">
+            <span class="prize-emoji">🍧</span>
+            <h3 class="prize-name">刨冰獎</h3>
+            <p class="prize-content">【SPICE】掛脖式風扇</p>
+            <span class="prize-type type-physical">實物贈品</span>
+            <p class="prize-remaining">剩餘 3 份</p>
+          </div>
+          <div class="prize-card" style="--card-hue:#7cb342">
+            <span class="prize-emoji">🍵</span>
+            <h3 class="prize-name">抹茶獎</h3>
+            <p class="prize-content">【SKATER】胖胖水壺530ml</p>
+            <span class="prize-type type-physical">實物贈品</span>
+            <p class="prize-remaining">剩餘 8 份</p>
+          </div>
+          <div class="prize-card" style="--card-hue:#f5b800">
+            <span class="prize-emoji">🍡</span>
+            <h3 class="prize-name">糰子獎</h3>
+            <p class="prize-content">【MASCLUB】3D涼感口罩10枚入×3包</p>
+            <span class="prize-type type-physical">實物贈品</span>
+            <p class="prize-remaining">剩餘 22 份</p>
+          </div>
+          <div class="prize-card" style="--card-hue:#4d7cfe">
+            <span class="prize-emoji">🧊</span>
+            <h3 class="prize-name">冰沙獎</h3>
+            <p class="prize-content">本次訂單折 NT$100</p>
+            <span class="prize-type type-discount">本次訂單折扣</span>
+            <p class="prize-remaining">剩餘 30 份</p>
+          </div>
+          <div class="prize-card" style="--card-hue:#17a398">
+            <span class="prize-emoji">🥤</span>
+            <h3 class="prize-name">蘇打獎</h3>
+            <p class="prize-content">運費折抵券1張【抵扣1箱運費】</p>
+            <span class="prize-type type-shipping">運費抵扣券</span>
+            <p class="prize-remaining">剩餘 45 份</p>
+          </div>
+          <div class="prize-card" style="--card-hue:#21b0c8">
+            <span class="prize-emoji">🫧</span>
+            <h3 class="prize-name">彈珠汽水獎</h3>
+            <p class="prize-content">本次訂單折 NT$50</p>
+            <span class="prize-type type-discount">本次訂單折扣</span>
+            <p class="prize-remaining">剩餘 59 份</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="lottery">
+        <h2 class="section-title"><span class="tag" style="background:#ef6c8f">DRAW</span>抽獎專區</h2>
+        <p class="pool-status">輸入資料，馬上轉扭蛋！</p>
+        <div class="lottery-panel">
+          <div class="field">
+            <label for="customer-id">客戶編號</label>
+            <input id="customer-id" type="text" placeholder="例如：C001">
+          </div>
+          <div class="field">
+            <label for="order-id">訂單號碼</label>
+            <input id="order-id" type="text" placeholder="例如：ORD-20260716-001">
+          </div>
+          <button type="button" class="btn btn-primary">查詢抽獎資格</button>
+          <button type="button" class="btn btn-draw">🎰 開始抽獎</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <h2 class="footer-title">活動注意事項</h2>
+    <ul class="notes">
+      <li>本活動僅限毓秀堂有效會員參加。</li>
+      <li>活動專區商品消費每滿 NT$3,000 可抽獎 1 次，可累計。</li>
+      <li>獎品數量有限，抽完為止。</li>
+      <li>實物贈品將隨您的訂單一併寄出；訂單折扣於本次訂單結帳時直接扣抵。</li>
+      <li>運費折抵券每筆訂單限用 1 張（抵扣上限 NT$130），自取客戶不適用。</li>
+      <li>本活動解釋權歸毓秀堂所有。</li>
+    </ul>
+    <div class="footer-brand"><p>© 2026 毓秀堂日系生活百貨</p></div>
+  </footer>
+</body>
+</html>
