@@ -197,10 +197,23 @@ main { position: relative; z-index: 1; }
 .status-draws { margin-top: 6px; font-weight: 700; color: var(--cobalt); }
 
 /* ============ 扭蛋機（配色改為琉璃紺 × 檸檬） ============ */
-.gacha-stage { text-align: center; margin: 36px auto 0; }
-.gacha-hint { margin-top: 14px; color: var(--cobalt); font-weight: 900; letter-spacing: 0.15em; }
+body.no-scroll { overflow: hidden; }
 
-.gacha-machine { position: relative; width: 220px; height: 320px; margin: 0 auto; }
+.gacha-stage[hidden] { display: none; }
+.gacha-stage {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 100px; padding: 20px;
+  background: rgba(10, 24, 48, 0.92);
+  text-align: center;
+}
+.gacha-hint { color: var(--lemon); font-size: 1.2rem; font-weight: 900; letter-spacing: 0.15em; }
+
+.gacha-machine {
+  position: relative; width: 220px; height: 320px; margin: 0 auto;
+  transform: scale(1.35); transform-origin: center bottom;
+}
+@media (max-width: 420px) { .gacha-machine { transform: scale(1.1); } }
 .gacha-dome {
   width: 200px; height: 150px; margin: 0 auto; position: relative; overflow: hidden;
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(227, 237, 247, 0.6));

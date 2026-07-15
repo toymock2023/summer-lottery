@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <header class="site-header">
@@ -52,7 +52,7 @@
             </div>
             <div class="field">
               <label for="order-id">訂單號碼</label>
-              <input id="order-id" name="orderId" type="text" autocomplete="off" placeholder="例如：ORD-20260716-001" required>
+              <input id="order-id" name="orderId" type="text" autocomplete="off" placeholder="例如：130000" required>
             </div>
             <button type="submit" class="btn btn-primary" id="verify-btn">🔍 查詢抽獎資格</button>
           </form>
@@ -113,10 +113,10 @@
     <h2 class="footer-title">活動注意事項</h2>
     <ul class="notes">
       <li>本活動僅限毓秀堂有效會員參加。</li>
-      <li>活動專區商品消費每滿 NT$3,000 可抽獎 1 次，可累計。</li>
+      <li>活動專區商品消費每滿 NT$3,000 可抽獎 1 次，單筆訂單可累計。</li>
       <li>獎品數量有限，抽完為止。</li>
-      <li>實物贈品將隨您的訂單一併寄出；訂單折扣於本次訂單結帳時直接扣抵。</li>
-      <li>運費折抵券每筆訂單限用 1 張（抵扣上限 NT$130），自取客戶不適用。</li>
+      <li>實物贈品將隨您的下一筆訂單一併寄出；訂單折扣將於下一筆訂單結帳時直接扣抵。</li>
+      <li>運費折抵券相當於價值NT$130。</li>
       <li>本活動解釋權歸毓秀堂所有。</li>
     </ul>
     <div class="footer-brand">
@@ -125,9 +125,9 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=2"></script>
+  <script src="js/config.js?v=3"></script>
   <script src="js/api.js?v=2"></script>
   <script src="js/gacha.js?v=2"></script>
-  <script src="js/ui.js?v=2"></script>
+  <script src="js/ui.js?v=3"></script>
 </body>
 </html>

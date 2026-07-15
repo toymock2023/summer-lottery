@@ -19,9 +19,9 @@ const PRIZES_META = {
   '🍧 刨冰獎': { content: '【SPICE】掛脖式風扇', type: '實物贈品' },
   '🍵 抹茶獎': { content: '【SKATER】胖胖水壺530ml', type: '實物贈品' },
   '🍡 糰子獎': { content: '【MASCLUB】3D涼感口罩10枚入×3包', type: '實物贈品' },
-  '🧊 冰沙獎': { content: '運費折抵券1張【抵扣1箱運費】', type: '運費抵扣券' },
-  '🥤 蘇打獎': { content: '本次訂單折 NT$100', type: '本次訂單折扣' },
-  '🫧 彈珠汽水獎': { content: '本次訂單折 NT$50', type: '本次訂單折扣' },
+  '🧊 冰沙獎': { content: '運費折抵券1張【抵扣 NT$130】', type: '運費抵扣券' },
+  '🥤 蘇打獎': { content: '下筆訂單折 NT$100', type: '下筆訂單折扣' },
+  '🫧 彈珠汽水獎': { content: '下筆訂單折 NT$50', type: '下筆訂單折扣' },
 };
 
 // ========== 純邏輯（Node 測試涵蓋：tests/gas-logic.test.js）==========
