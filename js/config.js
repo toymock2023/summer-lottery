@@ -13,8 +13,8 @@ const PRIZES = [
   { name: '🍧 刨冰獎', emoji: '🍧', content: '【SPICE】掛脖式風扇', type: '實物贈品', typeClass: 'physical', qty: 3 },
   { name: '🍵 抹茶獎', emoji: '🍵', content: '【SKATER】胖胖水壺530ml', type: '實物贈品', typeClass: 'physical', qty: 8 },
   { name: '🍡 糰子獎', emoji: '🍡', content: '【MASCLUB】3D涼感口罩10枚入×3包', type: '實物贈品', typeClass: 'physical', qty: 22 },
-  { name: '🧊 冰沙獎', emoji: '🧊', content: '運費折抵券1張【抵扣1箱運費】', type: '運費抵扣券', typeClass: 'shipping', qty: 30 },
-  { name: '🥤 蘇打獎', emoji: '🥤', content: '本次訂單折 NT$100', type: '本次訂單折扣', typeClass: 'discount', qty: 45 },
+  { name: '🧊 冰沙獎', emoji: '🧊', content: '運費折抵券1張【抵扣1箱運費】', type: '運費抵扣券', typeClass: 'shipping', qty: 45 },
+  { name: '🥤 蘇打獎', emoji: '🥤', content: '本次訂單折 NT$100', type: '本次訂單折扣', typeClass: 'discount', qty: 30 },
   { name: '🫧 彈珠汽水獎', emoji: '🫧', content: '本次訂單折 NT$50', type: '本次訂單折扣', typeClass: 'discount', qty: 59 },
 ];
 
