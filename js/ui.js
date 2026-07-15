@@ -159,7 +159,7 @@
     $('again-btn').disabled = true;
 
     show($('gacha-stage'));
-    $('gacha-stage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.body.classList.add('no-scroll');
 
     const spinDone = gacha.spin(2500);
     let res;
@@ -173,6 +173,7 @@
     if (!res.success) {
       gacha.reset();
       hide($('gacha-stage'));
+      document.body.classList.remove('no-scroll');
       showMessage('error', errorText(res.error));
       if (res.error && (res.error.code === 'NO_DRAWS_LEFT' || res.error.code === 'POOL_EMPTY')) {
         state.remaining = 0;
@@ -189,6 +190,7 @@
     state.remaining = d.remainingDraws;
     await gacha.drop();
     hide($('gacha-stage'));
+    document.body.classList.remove('no-scroll');
     gacha.reset();
     renderResult(d);
     gacha.confetti();
