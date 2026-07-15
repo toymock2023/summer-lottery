@@ -143,7 +143,6 @@ main { position: relative; z-index: 1; }
   padding: 4px 14px; border-radius: 3px; color: #fff; background: var(--cobalt);
 }
 .type-physical { background: var(--accent); }
-.type-shipping { background: var(--teal); }
 .prize-remaining {
   font-weight: 900; font-size: 1.05rem; color: var(--cobalt); white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -251,7 +250,7 @@ body.no-scroll { overflow: hidden; }
 }
 .capsule-top {
   position: absolute; top: 0; width: 64px; height: 32px;
-  background: var(--lemon); border-radius: 32px 32px 0 0; transform-origin: left bottom;
+  background: var(--capsule-color, var(--lemon)); border-radius: 32px 32px 0 0; transform-origin: left bottom;
 }
 .capsule-bottom {
   position: absolute; bottom: 0; width: 64px; height: 32px;
