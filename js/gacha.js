@@ -32,7 +32,7 @@ const gacha = (function () {
   }
 
   function confetti() {
-    const colors = ['#1f93dd', '#ffd43b', '#7ec8e3', '#ef6c8f', '#ffffff', '#9fd8a3'];
+    const colors = ['#1e4fa3', '#f6cf3d', '#bcd6ee', '#b23a5e', '#ffffff', '#2a7d6c'];
     const box = document.createElement('div');
     box.className = 'confetti';
     for (let i = 0; i < 60; i++) {

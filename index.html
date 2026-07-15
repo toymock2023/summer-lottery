@@ -8,71 +8,63 @@
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body>
-  <div class="sky" aria-hidden="true">
-    <div class="sun"></div>
-    <div class="cloud cloud-1"><i></i><i></i><i></i><i></i></div>
-    <div class="cloud cloud-2"><i></i><i></i><i></i><i></i></div>
-    <div class="cloud cloud-3"><i></i><i></i><i></i><i></i></div>
-    <div class="floaty f-1"><div class="lemon-slice"></div></div>
-    <div class="floaty f-2"><div class="ice-cube"></div></div>
-    <div class="floaty f-3"><div class="ice-cube ice-small"></div></div>
-  </div>
-
   <header class="site-header">
     <a class="brand" href="#hero">
-      <img src="assets/logo.png" alt="毓秀堂 logo" class="brand-logo">
+      <img src="assets/ict-logo.png" alt="毓秀堂 logo" class="brand-logo">
       <span class="brand-name">毓秀堂<small>日系生活百貨批發</small></span>
     </a>
+    <span class="member-chip">會員限定</span>
   </header>
 
   <main>
     <section class="hero" id="hero">
-      <p class="hero-badge">會員限定活動</p>
-      <h1 class="hero-title">夏日消暑祭</h1>
-      <p class="hero-sub">夏日清涼 滿額好禮抽</p>
-      <p class="hero-period">2026/7/16（四）～ 2026/8/14（五）</p>
-      <p class="hero-rule">活動專區商品消費每滿 <strong>NT$3,000</strong> 即可抽獎 <strong>1 次</strong>，可累計！</p>
-      <a class="scroll-cue" href="#prizes" aria-label="往下瀏覽獎品">▼</a>
-      <div class="cloud-divider" aria-hidden="true">
-        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#eaf9ff" d="M0,60 C120,20 240,90 380,55 C500,25 620,80 760,50 C900,20 1020,85 1160,55 C1280,30 1380,70 1440,45 L1440,90 L0,90 Z"/>
-        </svg>
+      <p class="tategaki">盛夏批發謝恩企劃</p>
+      <div class="hero-center">
+        <p class="hero-badge">會員限定活動</p>
+        <h1 class="hero-title">夏日<span class="blue">消暑</span>祭</h1>
+        <p class="hero-sub">夏日清涼　滿額好禮抽</p>
+        <p class="hero-period">2026年7月16日（四）— 8月14日（五）</p>
+        <p class="hero-rule">活動專區消費每滿 <strong>NT$3,000</strong>，即可抽獎 <strong>1 次</strong>・可累計</p>
+        <div class="ice-row" aria-hidden="true"><span class="ice"></span><span class="ice"></span><span class="ice"></span></div>
       </div>
+      <p class="tategaki right">涼を、まとめ買い。</p>
+      <div class="stamp" aria-hidden="true">夏日<br>特典</div>
     </section>
 
-    <div class="page-body">
-      <section class="section prizes" id="prizes">
-        <h2 class="section-title"><span class="tag">GIFT</span>六大甜品獎</h2>
-        <p class="pool-status" id="pool-status">獎池狀態載入中…</p>
-        <div class="prize-grid" id="prize-grid"></div>
-      </section>
+    <div class="seiha-band seigaiha" aria-hidden="true"></div>
 
-      <section class="section lottery" id="lottery">
-        <h2 class="section-title"><span class="tag tag-pink">DRAW</span>抽獎專區</h2>
+    <section class="section lottery" id="lottery">
+      <div class="section-head">
+        <h2 class="section-title">抽獎專區</h2>
+        <p class="section-lead">輸入客戶編號與訂單號碼，確認資格後即可抽獎</p>
+      </div>
 
-        <form class="verify-form" id="verify-form" novalidate>
-          <div class="field">
-            <label for="customer-id">客戶編號</label>
-            <input id="customer-id" name="customerId" type="text" autocomplete="off" placeholder="例如：C001" required>
+      <div class="lottery-wrap">
+        <div class="lottery-card">
+          <form class="verify-form" id="verify-form" novalidate>
+            <div class="field">
+              <label for="customer-id">客戶編號</label>
+              <input id="customer-id" name="customerId" type="text" autocomplete="off" placeholder="例如：C001" required>
+            </div>
+            <div class="field">
+              <label for="order-id">訂單號碼</label>
+              <input id="order-id" name="orderId" type="text" autocomplete="off" placeholder="例如：ORD-20260716-001" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="verify-btn">🔍 查詢抽獎資格</button>
+          </form>
+
+          <div class="message" id="message" role="alert" hidden></div>
+
+          <div class="status-panel" id="status-panel" hidden>
+            <p class="status-hello" id="status-hello"></p>
+            <p class="status-amount" id="status-amount"></p>
+            <p class="status-draws" id="status-draws"></p>
+            <button type="button" class="btn btn-draw" id="draw-btn" hidden>🎰 開始抽獎</button>
           </div>
-          <div class="field">
-            <label for="order-id">訂單號碼</label>
-            <input id="order-id" name="orderId" type="text" autocomplete="off" placeholder="例如：ORD-20260716-001" required>
-          </div>
-          <button type="submit" class="btn btn-primary" id="verify-btn">🔍 查詢抽獎資格</button>
-        </form>
-
-        <div class="message" id="message" role="alert" hidden></div>
-
-        <div class="status-panel" id="status-panel" hidden>
-          <p class="status-hello" id="status-hello"></p>
-          <p class="status-amount" id="status-amount"></p>
-          <p class="status-draws" id="status-draws"></p>
-          <button type="button" class="btn btn-draw" id="draw-btn" hidden>🎰 開始抽獎</button>
         </div>
 
         <div class="gacha-stage" id="gacha-stage" hidden>
@@ -105,12 +97,20 @@
           <p class="result-remaining" id="result-remaining"></p>
           <button type="button" class="btn btn-draw" id="again-btn" hidden>🎰 繼續抽獎</button>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <section class="section prizes" id="prizes">
+      <div class="section-head">
+        <h2 class="section-title">六大甜品獎</h2>
+        <p class="pool-status" id="pool-status">獎池狀態載入中…</p>
+      </div>
+      <div class="prize-list" id="prize-grid"></div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <h2 class="footer-title">📋 活動注意事項</h2>
+    <h2 class="footer-title">活動注意事項</h2>
     <ul class="notes">
       <li>本活動僅限毓秀堂有效會員參加。</li>
       <li>活動專區商品消費每滿 NT$3,000 可抽獎 1 次，可累計。</li>
@@ -125,9 +125,9 @@
     </div>
   </footer>
 
-  <script src="js/config.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/gacha.js"></script>
-  <script src="js/ui.js"></script>
+  <script src="js/config.js?v=2"></script>
+  <script src="js/api.js?v=2"></script>
+  <script src="js/gacha.js?v=2"></script>
+  <script src="js/ui.js?v=2"></script>
 </body>
 </html>

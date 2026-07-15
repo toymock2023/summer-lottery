@@ -40,13 +40,15 @@
       const meta = PRIZES.find((m) => m.name === p.name) || {};
       const out = p.remaining <= 0;
       return [
-        '<article class="prize-card', out ? ' is-out' : '', '">',
-        '<div class="prize-emoji">', meta.emoji || '🎁', '</div>',
-        '<h3 class="prize-name">', p.name, '</h3>',
+        '<div class="prize-row', out ? ' is-out' : '', '">',
+        '<span class="prize-emoji">', meta.emoji || '🎁', '</span>',
+        '<div class="prize-main">',
+        '<p class="prize-name">', p.name, '</p>',
         '<p class="prize-content">', meta.content || '', '</p>',
+        '</div>',
         '<span class="prize-type type-', meta.typeClass || 'physical', '">', meta.type || '', '</span>',
-        '<p class="prize-remaining">', out ? '已抽完' : '剩餘 ' + p.remaining + ' 份', '</p>',
-        '</article>',
+        '<span class="prize-remaining">', out ? '已抽完' : '剩餘 ' + p.remaining + ' 份', '</span>',
+        '</div>',
       ].join('');
     }).join('');
 
