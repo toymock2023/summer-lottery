@@ -8,10 +8,10 @@ const path = require('node:path');
 const source = fs.readFileSync(path.join(__dirname, '..', 'gas', 'Code.gs'), 'utf8');
 const gas = new Function(source + '\nreturn { calcTotalDraws, pickPrize, normalizeId, formatMoney, checkActivityPeriod };')();
 
-test('calcTotalDraws：每滿 3000 抽 1 次', () => {
-  assert.strictEqual(gas.calcTotalDraws(2999), 0);
-  assert.strictEqual(gas.calcTotalDraws(3000), 1);
-  assert.strictEqual(gas.calcTotalDraws(9500), 3);
+test('calcTotalDraws：每滿 2000 抽 1 次', () => {
+  assert.strictEqual(gas.calcTotalDraws(1999), 0);
+  assert.strictEqual(gas.calcTotalDraws(2000), 1);
+  assert.strictEqual(gas.calcTotalDraws(9500), 4);
   assert.strictEqual(gas.calcTotalDraws(0), 0);
   assert.strictEqual(gas.calcTotalDraws('abc'), 0);
   assert.strictEqual(gas.calcTotalDraws(-100), 0);
@@ -58,7 +58,8 @@ test('formatMoney：手動千分位格式化（不依賴 toLocaleString）', () 
 
 test('checkActivityPeriod：活動期間判斷', () => {
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-07-01T00:00:00+08:00')), 'NOT_STARTED');
-  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-07-16T00:00:00+08:00')), 'ACTIVE');
+  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-07-16T23:59:59+08:00')), 'NOT_STARTED');
+  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-07-17T00:00:00+08:00')), 'ACTIVE');
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-01T12:00:00+08:00')), 'ACTIVE');
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-14T23:59:59+08:00')), 'ACTIVE');
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-15T00:00:01+08:00')), 'ENDED');
