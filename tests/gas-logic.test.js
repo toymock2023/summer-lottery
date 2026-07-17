@@ -62,5 +62,7 @@ test('checkActivityPeriod：活動期間判斷', () => {
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-07-17T00:00:00+08:00')), 'ACTIVE');
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-01T12:00:00+08:00')), 'ACTIVE');
   assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-14T23:59:59+08:00')), 'ACTIVE');
-  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-15T00:00:01+08:00')), 'ENDED');
+  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-15T00:00:00+08:00')), 'ACTIVE');
+  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-08-31T23:59:59+08:00')), 'ACTIVE');
+  assert.strictEqual(gas.checkActivityPeriod(new Date('2026-09-01T00:00:01+08:00')), 'ENDED');
 });

@@ -9,9 +9,10 @@ const SHEET_POOL = '獎池庫存';
 const DRAW_THRESHOLD = 2000;
 const TIMEZONE = 'Asia/Taipei';
 const ACTIVITY_START = '2026-07-17T00:00:00+08:00';
-const ACTIVITY_END = '2026-08-14T23:59:59+08:00';
+// 消費期間至 8/14 止，但抽獎開放期間延長至 8/31（由後台人員控管 8/14 後不再登錄新消費訂單）。
+const ACTIVITY_END = '2026-08-31T23:59:59+08:00';
 // ⚠️ 測試用開關：true 時 query/draw 會略過活動日期檢查（前台顯示的活動期間文案不受影響）。
-// 上線前必須改回 false，否則 8/14 之後客人仍可持續抽獎。
+// 上線前必須改回 false，否則 8/31 之後客人仍可持續抽獎。
 const TESTING_SKIP_DATE_CHECK = true;
 
 // 獎項名稱（= C 分頁 A 欄）對應獎品內容與類型，寫入抽獎紀錄時使用
